@@ -603,3 +603,9 @@ code {
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 2rem;
 }
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
