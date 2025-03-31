@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techamat - How to Set Up Apache MINA FTP Server</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <header id="header" role="banner"></header>
+    <main>
+        <div class="content-hero">
+            <div class="container">
+                <h1>How to Set Up Apache MINA FTP Server</h1>
+                <div class="content-date">March 25, 2025</div>
+            </div>
+        </div>
+        <div class="content-body">
+            <p>Hey there! I’m Jules from Techamat, and today I’m going to walk you through setting up an FTP server
+                using Apache MINA. If you’ve ever struggled with setting up an FTP server on a tricky Linux OS like
+                RedHat Enterprise—where updates can cost you—or just want a reliable, cross-platform solution, Apache
+                MINA’s FTP Server is a fantastic choice. It’s 100% Java, which makes it super easy to install and run
+                consistently across different platforms. Let’s get started with version 1.1.4, and I’ll also point you
+                to the latest version if you want to go cutting-edge!</p>
+
+            <h2>Why Use Apache MINA FTP Server?</h2>
+            <p>I love Apache MINA because it’s a lightweight, Java-based FTP server that’s easy to get up and running.
+                Here are a couple of reasons why I recommend it:</p>
+            <ul>
+                <li><strong>Cross-Platform</strong>: Since it’s Java, it works the same way on Windows, Linux, or
+                    macOS—no need to worry about platform-specific quirks.</li>
+                <li><strong>Alternative to vsftpd</strong>: If you can’t get vsftpd and its dependencies installed on a
+                    system like RedHat Enterprise (where updates can be pricey), Apache MINA is a great fallback.</li>
+            </ul>
+            <p>Whether you’re setting up a file server for your team or just need a quick FTP solution for testing,
+                Apache MINA has you covered. Let’s dive into the setup process using version 1.1.4.</p>
+
+            <h2>Step-by-Step Guide to Set Up Apache MINA FTP Server</h2>
+            <p>Here’s how I set up Apache MINA FTP Server on my system. Follow these steps, and you’ll have your FTP
+                server running in no time.</p>
+
+            <h3>Step 1: Prerequisites</h3>
+            <p>Before we start, make sure you have Java installed on your system, as Apache MINA is a Java-based
+                application. Version 1.1.4 requires at least Java 8, but I recommend using Java 11 or later for better
+                performance and security. You can check your Java version by running:</p>
+            <pre><code>java -version</code></pre>
+            <p>If Java isn’t installed, download and install it from the <a
+                    href="https://www.oracle.com/java/technologies/downloads/" target="_blank">official Oracle
+                    website</a> or use your system’s package manager (e.g., <code>sudo apt install openjdk-11-jdk</code>
+                on Ubuntu).</p>
+
+            <h3>Step 2: Download the Binaries</h3>
+            <p>First, you’ll need to download Apache MINA FTP Server version 1.1.4. You can grab it directly from the
+                Apache website using this link:</p>
+            <p><a href="https://www.apache.org/dyn/closer.lua/mina/ftpserver/1.1.4/apache-ftpserver-1.1.4-bin.tar.gz"
+                    target="_blank">https://www.apache.org/dyn/closer.lua/mina/ftpserver/1.1.4/apache-ftpserver-1.1.4-bin.tar.gz</a>
+            </p>
+            <p>This link will take you to a page that suggests the closest mirror for downloading the file. Click the
+                link to download <code>apache-ftpserver-1.1.4-bin.tar.gz</code>.</p>
+            <p><strong>Note:</strong> If you want the absolute latest version, Apache MINA FTP Server 1.2.1 was released
+                on February 1, 2025. You can find it in the Apache archives at <a
+                    href="https://archive.apache.org/dist/mina/ftpserver/1.2.1/apache-ftpserver-1.2.1-bin.tar.gz"
+                    target="_blank">this link</a>. The setup steps are very similar, but I’ll be using 1.1.4 for this
+                guide as it’s a stable release.</p>
+
+            <h3>Step 3: Install Apache MINA FTP Server</h3>
+            <p>Once you’ve downloaded the file, let’s extract it and move it to a suitable location. I like to keep my
+                servers in <code>/srv/</code>, but you can choose a different directory if you prefer. Here’s what I do:
+            </p>
+            <p>Open a terminal and run:</p>
+            <pre><code>tar xzvf apache-ftpserver-1.1.4-bin.tar.gz</code></pre>
+            <p>This extracts the archive. Next, move the extracted folder to <code>/srv/ftpserver</code>:</p>
+            <pre><code>mv apache-ftpserver-1.1.4 /srv/ftpserver</code></pre>
+            <p>Now your FTP server files are in <code>/srv/ftpserver</code>, ready for configuration.</p>
+
+            <h3>Step 4: Configure the FTP Server</h3>
+            <p>Apache MINA comes with a typical configuration file that we can use as a starting point. Let’s edit it to
+                set up the basics. Navigate to the configuration file at
+                <code>/srv/ftpserver/conf/ftpd-typical.xml</code> and open it in your favorite text editor (I use
+                <code>nano</code> or <code>vim</code>).</p>
+            <p>Replace the contents of <code>ftpd-typical.xml</code> with the following:</p>
+            <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!--
+    Licensed to the Apache Software Foundation (ASF) under one or more
+    contributor license agreements. See the NOTICE file distributed with
+    this work for additional information regarding copyright ownership.
+    The ASF licenses this file to you under the Apache License, Version
+    2.0 (the "License"); you may not use this file except in compliance
+    with the License. You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0 Unless required by
+    applicable law or agreed to in writing, software distributed under the
+    License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+    CONDITIONS OF ANY KIND, either express or implied. See the License for
+    the specific language governing permissions and limitations under the
+    License.
+--&gt;
+&lt;server xmlns="http://mina.apache.org/ftpserver/spring/v1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://mina.apache.org/ftpserver/spring/v1 http://mina.apache.org/ftpserver/ftpserver-1.0.xsd"
+    id="myServer"&gt;
+    &lt;listeners&gt;
+        &lt;nio-listener name="default" port="21"&gt;
+        &lt;/nio-listener&gt;
+    &lt;/listeners&gt;
+    &lt;file-user-manager file="./conf/users.properties" encrypt-passwords="clear"/&gt;
+&lt;/server&gt;
+            </code></pre>
+            <p><strong>What I Changed:</strong> I kept the configuration simple by removing the SSL settings (you can
+                add them later for secure FTP). I also set <code>encrypt-passwords="clear"</code> in the
+                <code>file-user-manager</code> element, so passwords are stored in plain text for now. This makes setup
+                easier, but for production, you should consider encrypting passwords or enabling SSL. The schema
+                location in the XML hasn’t changed since version 1.0, as the core configuration structure remains
+                compatible.</p>
+
+            <h3>Step 5: Configure Users</h3>
+            <p>Next, we need to set up the users who can access the FTP server. Apache MINA uses a
+                <code>users.properties</code> file for this. Open <code>/srv/ftpserver/conf/users.properties</code> in
+                your text editor and add a user like this:</p>
+            <pre><code>ftpserver.user.myusername.userpassword=mypassword
+ftpserver.user.myusername.homedirectory=./res/home/myusername
+ftpserver.user.myusername.enableflag=true
+ftpserver.user.myusername.writepermission=true
+ftpserver.user.myusername.maxloginnumber=0
+ftpserver.user.myusername.maxloginperip=0
+ftpserver.user.myusername.idletime=0
+ftpserver.user.myusername.uploadrate=0
+ftpserver.user.myusername.downloadrate=0
+            </code></pre>
+            <p>Replace <code>myusername</code> with the username you want (e.g., <code>jules</code>) and
+                <code>mypassword</code> with a secure password. Here’s what each line does:</p>
+            <ul>
+                <li><code>userpassword</code>: The user’s password.</li>
+                <li><code>homedirectory</code>: The directory where this user’s files will be stored (relative to
+                    <code>/srv/ftpserver</code>).</li>
+                <li><code>enableflag</code>: Set to <code>true</code> to enable the user.</li>
+                <li><code>writepermission</code>: Set to <code>true</code> to allow the user to upload files.</li>
+                <li><code>maxloginnumber</code> and <code>maxloginperip</code>: Set to <code>0</code> for unlimited
+                    logins.</li>
+                <li><code>idletime</code>, <code>uploadrate</code>, <code>downloadrate</code>: Set to <code>0</code> for
+                    no limits.</li>
+            </ul>
+            <p>If you want to add more users, just copy this block, paste it below, and change the username and
+                password. For example, to add a second user named <code>alice</code>, you’d add:</p>
+            <pre><code>ftpserver.user.alice.userpassword=alice123
+ftpserver.user.alice.homedirectory=./res/home/alice
+ftpserver.user.alice.enableflag=true
+ftpserver.user.alice.writepermission=true
+ftpserver.user.alice.maxloginnumber=0
+ftpserver.user.alice.maxloginperip=0
+ftpserver.user.alice.idletime=0
+ftpserver.user.alice.uploadrate=0
+ftpserver.user.alice.downloadrate=0
+            </code></pre>
+            <p>Make sure the home directory exists. For example, create the directory for <code>myusername</code>:</p>
+            <pre><code>mkdir -p /srv/ftpserver/res/home/myusername</code></pre>
+
+            <h3>Step 6: Run the FTP Server</h3>
+            <p>Now that everything is configured, let’s start the FTP server. Navigate to the
+                <code>/srv/ftpserver</code> directory:</p>
+            <pre><code>cd /srv/ftpserver</code></pre>
+            <p>Then run the server using the configuration file we edited. In version 1.1.4, the startup script is named
+                <code>ftpd.sh</code>, and you can run it like this:</p>
+            <pre><code>bin/ftpd.sh conf/ftpd-typical.xml</code></pre>
+            <p>This starts the server in the foreground. If you want to run it in the background, you can add
+                <code>&</code> at the end:</p>
+            <pre><code>bin/ftpd.sh conf/ftpd-typical.xml &</code></pre>
+            <p>You should see output indicating the server has started, listening on port 21 (the default FTP port). To
+                stop the server, you can press <code>Ctrl+C</code> if it’s running in the foreground, or find the
+                process ID and kill it (e.g., <code>kill $(pgrep -f ftpd.sh)</code>).</p>
+
+            <h3>Step 7: Test Your FTP Server</h3>
+            <p>Let’s make sure the server is working. You can connect to it using an FTP client like FileZilla, or even
+                from the command line. Here’s how I test it with the <code>ftp</code> command:</p>
+            <pre><code>ftp localhost</code></pre>
+            <p>Log in with the username and password you set (e.g., <code>myusername</code> and
+                <code>mypassword</code>). If everything is set up correctly, you should be able to log in and see the
+                contents of the user’s home directory (<code>/srv/ftpserver/res/home/myusername</code>).</p>
+            <p>If you’re on a remote machine, replace <code>localhost</code> with your server’s IP address (e.g.,
+                <code>ftp 192.168.1.100</code>). Make sure port 21 is open on your firewall if you’re testing remotely.
+                On a Linux system, you can check with:</p>
+            <pre><code>sudo ufw allow 21/tcp</code></pre>
+
+            <h2>Final Thoughts</h2>
+            <p>And there you have it—an Apache MINA FTP Server up and running with version 1.1.4! I love how
+                straightforward this setup is, especially when dealing with systems where traditional FTP servers like
+                vsftpd are a hassle to install. If you want to use the latest version (1.2.1), the steps are nearly
+                identical—just update the file names and use the <code>ftpserver.sh</code> script instead of
+                <code>ftpd.sh</code> for starting the server.</p>
+            <p>Once your server is running, you can explore more advanced configurations, like enabling SSL for secure
+                transfers (check the <code>ftpd-full.xml</code> example in the <code>conf/</code> directory) or setting
+                up rate limits for users. If you run into any issues—like connection errors or permission
+                problems—double-check your configuration files and ensure the home directories exist. Also, make sure
+                Java is properly installed and your firewall isn’t blocking port 21. Feel free to reach out if you need
+                help troubleshooting!</p>
+        </div>
+    </main>
+    <footer role="contentinfo"></footer>
+    <script src="../scripts.js"></script>
+</body>
+
+</html>
