@@ -842,3 +842,13 @@ img {
         grid-template-columns: 1fr;
     }
 }
+
+.project-card .thumbnail::before,
+.blog-post .thumbnail::before {
+    display: none;
+    /* Hide placeholder text if image is set */
+}
+
+.content-hero.blog {
+    background: linear-gradient(135deg, #0077b6, #00b4d8);
+}

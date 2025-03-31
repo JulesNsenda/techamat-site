@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Techamat - SPF Tutorial</title>
+    <title>Techamat - How to Set Up SPF for Your Domain</title>
     <link rel="stylesheet" href="../styles.css">
 </head>
 
@@ -13,80 +13,140 @@
     <main>
         <div class="content-hero">
             <div class="container">
-                <h1>SPF Tutorial</h1>
-                <div class="content-date">April 5, 2025</div>
+                <h1>How to Set Up SPF for Your Domain</h1>
+                <div class="content-date">March 31, 2025</div>
             </div>
         </div>
         <div class="content-body">
-            <p>This tutorial aims to teach you all you need to know regarding Sender Policy Framework (SPF) with regards
-                to its impact for us at Virtual Postman.</p>
+            <p>Hey there! I’m Jules from Techamat, and today I’m going to walk you through setting up Sender Policy
+                Framework (SPF) for your domain. If you’ve ever had emails rejected by servers like Gmail, SPF might be
+                the culprit—or rather, the lack of it. Let’s get your domain set up properly so your emails reach their
+                destination.</p>
 
             <h2>What is SPF?</h2>
-            <p>SPF is a system that allows domain owners to specify which mail servers are allowed to send email from
-                their domain. In other words, it determines which mail servers are permitted to send email where the
-                "From" email address ends with that domain name.</p>
-            <p>The purpose of SPF is to prevent others from pretending to be your organization. For example, if I own
-                <code>example.com</code> and have two servers sending email for my domain—<code>1.2.3.4</code> and
-                <code>5.6.7.8</code>—I want to tell all other mail servers to reject emails from
-                <code>@example.com</code> unless they originate from those two IP addresses. SPF makes this possible.
-            </p>
-            <p>SPF is optional. Not all domains have it set up, and you don’t need SPF to send or receive email—the SMTP
-                protocol functions without it. However, while SPF is theoretically optional, in practice, it’s critical.
-                Some mail servers, like <code>gmail.com</code>, won’t accept email if SPF isn’t configured correctly. At
-                Virtual Postman (VP), we need to understand SPF to ensure our customers’ settings are correct.</p>
+            <p>SPF is a system that lets you, as a domain owner, specify which mail servers are allowed to send emails
+                from your domain. Basically, it tells the world, “Hey, only these servers can send emails from my
+                domain—reject anything else.”</p>
+            <p>For example, if I own <code>example.com</code> and I have two servers sending emails—<code>1.2.3.4</code>
+                and <code>5.6.7.8</code>—I can use SPF to ensure that only those servers are trusted. If someone tries
+                to send an email from <code>@example.com</code> using a different server, it’ll get rejected by servers
+                that check SPF.</p>
+            <p>SPF isn’t mandatory. You can send and receive emails without it because the SMTP protocol doesn’t require
+                it. But here’s the catch: some email providers, like Gmail, might reject your emails if SPF isn’t set up
+                correctly. So, while it’s optional in theory, it’s practically a must-have.</p>
 
-            <h2>How Does SPF Work?</h2>
-            <p>SPF works by adding a DNS record of type <code>TXT</code> for the domain you’re protecting. For
-                <code>example.com</code>, you’d add a TXT record like this:</p>
-            <pre><code>example.com. 300 IN TXT "v=spf1 ip4:1.2.3.4 ip4:5.6.7.8 -all"</code></pre>
-            <p>This record states that only servers at <code>1.2.3.4</code> and <code>5.6.7.8</code> are authorized to
-                send emails from addresses ending in <code>@example.com</code>. The <code>-all</code> means "reject all
-                others." This can only be set by the domain’s DNS manager—we can’t do it for customers unless we host
-                their DNS (which we don’t).</p>
+            <h2>Why Should You Set Up SPF?</h2>
+            <p>Setting up SPF helps protect your domain from being spoofed—meaning, it stops others from pretending to
+                send emails as you. It also improves your email deliverability. Without SPF, your emails might end up in
+                spam folders or get rejected entirely, especially by strict servers like Gmail. I’ve seen this happen
+                too many times, and setting up SPF is a simple fix.</p>
 
-            <h2>How Does SPF Impact Us?</h2>
-            <p>When we send emails from our mail server on behalf of customers, SPF can cause issues if:</p>
+            <h2>Step-by-Step Guide to Set Up SPF</h2>
+            <p>Let’s get to the good stuff—here’s how I set up SPF for my own domains, and you can follow the same
+                steps.</p>
+
+            <h3>Step 1: Check if Your Domain Already Has an SPF Record</h3>
+            <p>First, let’s see if your domain already has an SPF record. You’ll need to check your domain’s DNS
+                records. I like doing this on a Linux machine, but you can use online tools too.</p>
+            <p>If you’re on Linux, open a terminal and run:</p>
+            <pre><code>dig yourdomain.com TXT</code></pre>
+            <p>Replace <code>yourdomain.com</code> with your actual domain (e.g., <code>example.com</code>). Look for a
+                line in the output that looks like this:</p>
+            <pre><code>yourdomain.com. 300 IN TXT "v=spf1 ip4:12.34.56.78 -all"</code></pre>
+            <p>Here’s what to check:</p>
             <ul>
-                <li>We’re sending from the customer’s domain (e.g., <code>user@customer.co.za</code>),</li>
-                <li>The receiving server checks SPF,</li>
-                <li>The customer has SPF configured but hasn’t authorized our servers, or</li>
-                <li>The customer lacks SPF, and the recipient (e.g., Gmail) rejects unauthenticated senders.</li>
+                <li>The domain matches (<code>yourdomain.com</code>).</li>
+                <li>The record type is <code>TXT</code>.</li>
+                <li>The value starts with <code>v=spf1</code>.</li>
             </ul>
-            <p>If a customer’s SPF only authorizes their own servers (e.g., <code>12.34.56.78</code>), and we send from
-                our servers, recipients checking SPF will reject the email.</p>
+            <p>If you see a line like this, you already have an SPF record. If not, your domain doesn’t have SPF set up
+                yet, and we’ll create one in the next step.</p>
+            <p>If you don’t have a Linux machine, you can use an online DNS lookup tool like <a
+                    href="https://mxtoolbox.com/SuperTool.aspx" target="_blank">MXToolbox</a>. Just enter your domain
+                and look for a TXT record starting with <code>v=spf1</code>.</p>
 
-            <h2>How to Configure SPF for Our Customers</h2>
-            <p>To send emails on behalf of customers (especially those using our hosted VP instances), follow these
-                steps:</p>
-            <h3>Check if the Customer Uses SPF</h3>
-            <p>For a customer domain like <code>customer.co.za</code>, check for an SPF record on a Linux machine:</p>
-            <pre><code>dig customer.co.za TXT</code></pre>
-            <p>Look for output like:</p>
-            <pre><code>customer.co.za. 300 IN TXT "v=spf1 ip4:12.34.56.78 -all"</code></pre>
-            <p>Key indicators:</p>
+            <h3>Step 2: Identify Your Mail Servers</h3>
+            <p>Before creating or updating an SPF record, you need to know which servers send emails for your domain.
+                These could be:</p>
             <ul>
-                <li>The domain matches (<code>customer.co.za</code>),</li>
-                <li>Type is <code>TXT</code>,</li>
-                <li>Value starts with <code>v=spf1</code>.</li>
+                <li>Your own mail server (e.g., if you’re hosting email with a provider like Zoho or your own server).
+                </li>
+                <li>A third-party service like Google Workspace, SendGrid, or Mailchimp for marketing emails.</li>
             </ul>
-            <p>If no such line exists, they’re not using SPF.</p>
+            <p>For example, if I’m using Google Workspace to send emails for <code>example.com</code>, I need to include
+                Google’s mail servers in my SPF record. If I’m also using SendGrid for marketing emails, I’ll need to
+                include their servers too.</p>
+            <p>Check with your email provider—they usually provide the SPF details you need. For instance:</p>
+            <ul>
+                <li>Google Workspace: <code>include:_spf.google.com</code></li>
+                <li>SendGrid: <code>include:sendgrid.net</code></li>
+            </ul>
+            <p>If you’re using your own server, you’ll need its IP address (e.g., <code>ip4:12.34.56.78</code>).</p>
 
-            <h3>If the Customer Isn’t Using SPF</h3>
-            <p>If no SPF is set, encourage them to configure it. Without SPF, some servers (e.g., Gmail) may reject
-                emails from their domain, impacting delivery to <code>@gmail.com</code> and other addresses.</p>
+            <h3>Step 3: Create or Update Your SPF Record</h3>
+            <p>Now that you know your mail servers, let’s create or update your SPF record. You’ll need access to your
+                domain’s DNS settings—usually through your domain registrar (e.g., Namecheap, GoDaddy) or DNS provider
+                (e.g., Cloudflare).</p>
+            <p><strong>If You Don’t Have an SPF Record:</strong></p>
+            <p>You’ll create a new TXT record. Here’s an example for <code>example.com</code> if I’m using Google
+                Workspace and my own server at <code>1.2.3.4</code>:</p>
+            <pre><code>example.com. 300 IN TXT "v=spf1 ip4:1.2.3.4 include:_spf.google.com -all"</code></pre>
+            <p>Here’s what this means:</p>
+            <ul>
+                <li><code>v=spf1</code>: This is an SPF record.</li>
+                <li><code>ip4:1.2.3.4</code>: My server at <code>1.2.3.4</code> is allowed to send emails.</li>
+                <li><code>include:_spf.google.com</code>: Google Workspace servers are also allowed.</li>
+                <li><code>-all</code>: Reject any other servers trying to send emails from my domain.</li>
+            </ul>
+            <p>Log in to your DNS provider, go to the DNS management section, and add a new TXT record with:</p>
+            <ul>
+                <li><strong>Name/Host</strong>: Your domain (e.g., <code>example.com</code> or just <code>@</code>
+                    depending on your provider).</li>
+                <li><strong>Type</strong>: TXT</li>
+                <li><strong>Value</strong>: Your SPF record (e.g.,
+                    <code>"v=spf1 ip4:1.2.3.4 include:_spf.google.com -all"</code>).</li>
+                <li><strong>TTL</strong>: Set to 300 (or default).</li>
+            </ul>
 
-            <h3>If the Customer Is Using SPF</h3>
-            <p>If they have SPF (e.g., <code>"v=spf1 ip4:12.34.56.78 -all"</code>), they need to include our servers as
-                trusted senders. Instead of listing our IP addresses directly (which could change), they should include
-                our SPF record:</p>
-            <pre><code>customer.co.za. 300 IN TXT "v=spf1 ip4:12.34.56.78 include:spf.mail.virtualpostman.co.za -all"</code></pre>
-            <p>The <code>include:spf.mail.virtualpostman.co.za</code> part authorizes any servers in our SPF record. If
-                our server IPs change, we update <code>spf.mail.virtualpostman.co.za</code>, and customers don’t need to
-                adjust their records.</p>
+            <p><strong>If You Already Have an SPF Record:</strong></p>
+            <p>If you found an existing SPF record (e.g., <code>"v=spf1 ip4:12.34.56.78 -all"</code>), you’ll need to
+                update it to include any additional mail servers. For example, if I want to add Google Workspace to an
+                existing record, I’d change it to:</p>
+            <pre><code>example.com. 300 IN TXT "v=spf1 ip4:12.34.56.78 include:_spf.google.com -all"</code></pre>
+            <p>Edit the TXT record in your DNS settings to include the new <code>include:</code> directive. Be careful
+                not to create multiple SPF records—there should only be one TXT record starting with <code>v=spf1</code>
+                for your domain.</p>
 
-            <h2>Not Every Rejection Is SPF-Related</h2>
-            <p>When emails bounce, check the bounce message—don’t assume SPF is the culprit. It could be another issue,
-                and focusing solely on SPF might waste time.</p>
+            <h3>Step 4: Test Your SPF Record</h3>
+            <p>After updating your DNS, it might take a few minutes to a few hours for the changes to propagate. Once
+                it’s live, test your SPF record to make sure it’s working.</p>
+            <p>Run the <code>dig</code> command again:</p>
+            <pre><code>dig yourdomain.com TXT</code></pre>
+            <p>Or use an online tool like <a href="https://mxtoolbox.com/spf.aspx" target="_blank">MXToolbox SPF
+                    Checker</a>. Enter your domain, and it’ll show your SPF record and any issues (e.g., too many
+                lookups, syntax errors).</p>
+            <p>You can also send a test email to a service like <a href="https://www.mail-tester.com/"
+                    target="_blank">mail-tester.com</a>. It’ll give you a report on your email setup, including whether
+                SPF passes.</p>
+
+            <h3>Step 5: Monitor and Troubleshoot</h3>
+            <p>Once SPF is set up, keep an eye on your email delivery. If emails are still bouncing, check the bounce
+                message—it might not be SPF-related. It could be something else, like a DKIM or DMARC issue, or your
+                server being on a blacklist.</p>
+            <p>If you’re having trouble, double-check your SPF syntax. Common mistakes include:</p>
+            <ul>
+                <li>Multiple SPF records (you should only have one).</li>
+                <li>Missing <code>-all</code> at the end (or using <code>~all</code> for soft fail, which might not be
+                    strict enough).</li>
+                <li>Too many <code>include:</code> directives (SPF has a limit of 10 DNS lookups).</li>
+            </ul>
+            <p>If you’re stuck, feel free to reach out—I’m happy to help!</p>
+
+            <h2>Final Thoughts</h2>
+            <p>Setting up SPF is a small but powerful step to protect your domain and ensure your emails get delivered.
+                It’s something I always recommend to anyone managing their own email setup. Once you’ve got SPF in
+                place, you might also want to look into DKIM and DMARC to further secure your email—they work together
+                to make your domain even more trustworthy.</p>
         </div>
     </main>
     <footer role="contentinfo"></footer>
