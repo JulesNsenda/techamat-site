@@ -459,3 +459,12 @@ footer {
     .hero h1 { font-size: 2rem; }
     .services-grid { grid-template-columns: 1fr; }
 }
+pre {
+    background: var(--light);
+    padding: 1rem;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+code {
+    font-family: monospace;
+}
