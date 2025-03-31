@@ -1,3 +1,8 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
 :root {
     --primary: #023e8a;
     --secondary: #0077b6;
@@ -22,6 +27,13 @@ body {
     background: var(--white);
     overflow-x: hidden;
     scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1 0 auto;
 }
 
 /* FOUC Prevention */
@@ -30,6 +42,7 @@ footer {
     visibility: hidden;
     opacity: 0;
     transition: opacity 0.3s ease;
+    flex-shrink: 0;
 }
 
 header.loaded,
