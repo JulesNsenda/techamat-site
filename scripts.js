@@ -1,5 +1,5 @@
 // Load header
-fetch('header.html')
+fetch('/header.html')
     .then(response => response.text())
     .then(data => {
         const header = document.getElementById('header');
@@ -10,7 +10,7 @@ fetch('header.html')
     .catch(error => console.error('Error loading header:', error));
 
 // Load footer
-fetch('footer.html')
+fetch('/footer.html')
     .then(response => response.text())
     .then(data => {
         const footer = document.querySelector('footer');
