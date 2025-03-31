@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techamat - Chakucart Paystack MVP</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <header id="header" role="banner"></header>
+    <section id="content" aria-labelledby="content-title">
+        <div class="container">
+            <h1 class="section-title" id="content-title">Chakucart Paystack MVP</h1>
+            <div class="content-date">March 31, 2025</div>
+            <p>This project showcases a Minimum Viable Product (MVP) for Chakucart, an e-commerce platform integrated
+                with Paystack for seamless payment processing.</p>
+
+            <h2>Project Overview</h2>
+            <p>Chakucart is a lightweight e-commerce solution designed to enable small businesses to sell products
+                online quickly and efficiently. For this MVP, we integrated Paystack, a leading payment gateway in
+                Africa, to handle transactions securely and reliably. The app is hosted on Vercel, leveraging its fast
+                deployment and scalability features.</p>
+            <p><a href="https://chakucart-vert.vercel.app/" target="_blank" class="btn btn-primary">Visit Live Demo</a>
+            </p>
+
+            <h2>Technical Details</h2>
+            <p>The Chakucart MVP was built with the following technologies:</p>
+            <ul>
+                <li><strong>Frontend</strong>: Next.js for a performant, server-rendered React application.</li>
+                <li><strong>Payment Integration</strong>: Paystack API for processing payments, including card
+                    transactions and bank transfers.</li>
+                <li><strong>Hosting</strong>: Vercel for zero-config deployment and automatic scaling.</li>
+                <li><strong>Styling</strong>: CSS with a focus on responsive design for mobile and desktop users.</li>
+            </ul>
+            <p>The integration with Paystack allows users to make payments directly on the platform, with real-time
+                transaction verification and error handling. This MVP demonstrates a functional checkout flow, from
+                product selection to payment completion.</p>
+
+            <h2>Challenges and Solutions</h2>
+            <p>Integrating Paystack required handling webhooks for transaction confirmation and ensuring secure API key
+                management. We addressed this by:</p>
+            <ul>
+                <li>Using Vercel’s environment variables to securely store API keys.</li>
+                <li>Implementing a webhook endpoint to listen for payment status updates from Paystack.</li>
+                <li>Testing with Paystack’s sandbox environment to simulate real-world scenarios.</li>
+            </ul>
+
+            <h2>Impact</h2>
+            <p>This MVP provides a foundation for small businesses to test their e-commerce ideas without heavy upfront
+                investment. The Paystack integration ensures reliable payments, critical for building trust with
+                customers. It’s a practical example of how Techamat delivers tailored solutions for real-world needs.
+            </p>
+            <p>Check out the live demo at <a href="https://chakucart-vert.vercel.app/"
+                    target="_blank">chakucart-vert.vercel.app</a>.</p>
+        </div>
+    </section>
+    <footer role="contentinfo"></footer>
+    <script src="../scripts.js"></script>
+</body>
+
+</html>
