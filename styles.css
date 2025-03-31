@@ -558,6 +558,11 @@ footer {
 
     .mobile-menu-btn {
         display: block;
+        font-size: 1.8rem;
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 1000;
     }
 
     nav ul {
@@ -572,10 +577,21 @@ footer {
         transform: translateY(-100%);
         transition: var(--transition);
         z-index: 999;
+        visibility: hidden; 
     }
 
     nav ul.active {
         transform: translateY(0);
+        visibility: visible; 
+    }
+
+    nav ul li {
+        margin-bottom: 1rem; 
+    }
+
+    nav ul li a {
+        font-size: 1.2rem;
+        display: block; 
     }
 
     .section-title {
