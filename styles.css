@@ -5,12 +5,12 @@ body {
 }
 
 :root {
-    --primary: #023e8a;
-    --secondary: #0077b6;
-    --accent: #00b4d8;
+    --primary: #002A5C; /* Darker Navy */
+    --secondary: #006094; /* Deeper Blue */
+    --accent: #00A9C4; /* Less vibrant Teal */
     --light: #f0f8ff;
     --white: #ffffff;
-    --gradient: linear-gradient(135deg, #0077b6, #023e8a);
+    --gradient: linear-gradient(135deg, var(--secondary), var(--primary)); /* Updated gradient */
     --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
 }
@@ -19,11 +19,11 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Roboto', sans-serif; /* Updated font */
 }
 
 body {
-    line-height: 1.7;
+    line-height: 1.8; /* Increased line-height */
     color: #333;
     background: var(--white);
     overflow-x: hidden;
@@ -161,6 +161,7 @@ nav ul li a:hover {
     margin-bottom: 1.5rem;
     line-height: 1.2;
     animation: fadeInDown 1s ease-out;
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .hero h1 span {
@@ -187,7 +188,7 @@ nav ul li a:hover {
     padding: 1rem 2rem;
     font-weight: 600;
     text-decoration: none;
-    border-radius: 50px;
+    border-radius: 5px; /* Reduced border-radius */
     transition: var(--transition);
     display: inline-block;
 }
@@ -215,7 +216,7 @@ nav ul li a:hover {
 }
 
 section {
-    padding: 6rem 0;
+    padding: 7rem 0; /* Increased padding */
 }
 
 .section-header {
@@ -229,6 +230,7 @@ section {
     margin-bottom: 0.5rem;
     position: relative;
     display: inline-block;
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .section-title::after {
@@ -264,6 +266,7 @@ section {
     font-size: 1.8rem;
     color: var(--primary);
     margin-bottom: 1rem;
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .about-stats {
@@ -308,13 +311,13 @@ section {
 }
 
 .service-card {
-    background: rgba(255, 255, 255, 0.8);
+    background: var(--white); /* Cleaner background */
     border-radius: 20px;
     padding: 2rem;
     text-align: center;
     position: relative;
     transition: var(--transition);
-    border: 1px solid rgba(0, 119, 182, 0.1);
+    border: 1px solid #e0e0e0; /* Subtle border */
 }
 
 .service-card:hover {
@@ -342,6 +345,7 @@ section {
     font-size: 1.3rem;
     color: var(--primary);
     margin-bottom: 0.5rem;
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .service-content p {
@@ -376,6 +380,7 @@ section {
     font-size: 1.5rem;
     margin-bottom: 1rem;
     color: var(--primary);
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .contact-item {
@@ -422,6 +427,7 @@ footer {
     margin-bottom: 0.8rem;
     position: relative;
     padding-bottom: 0.5rem;
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .footer-col h4::after {
@@ -715,6 +721,7 @@ img {
     font-size: 1.5rem;
     color: var(--primary);
     margin-bottom: 0.5rem;
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .blog-post .blog-date {
@@ -758,6 +765,7 @@ img {
 .content-hero h1 {
     font-size: 3rem;
     margin-bottom: 0.5rem;
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .content-hero .content-date {
@@ -777,6 +785,7 @@ img {
     margin: 2rem 0 1rem;
     border-bottom: 2px solid var(--accent);
     padding-bottom: 0.5rem;
+    letter-spacing: 0.5px; /* Added letter-spacing */
 }
 
 .content-body p {
